@@ -67,22 +67,57 @@
 
 .grid {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
 }
 
+.grid Image {
+  background-color: #fff;
+}
+
+.input {
+  margin-top: 2rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.2rem;
+  padding: 0.2rem;
+  border: 3px solid #eaeaea;
+  border-radius: 10px;
+  min-width: 200px;
+}
+
+.input:focus,
+.input:active {
+  transition: color 0.15s ease, border-color 0.15s ease;
+  border-color: #0070f3;
+}
+
+.button {
+  transition: color 0.15s ease, border-color 0.15s ease;
+  border: 3px solid #eaeaea;
+  border-radius: 10px;
+  padding: 00.2rem;
+}
+
+.button:hover {
+  color: #0070f3;
+  border-color: #0070f3;
+  background-color: #fafafa;
+}
+
 .card {
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 3px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
+  display: flex;
 }
 
 .card:hover,
@@ -98,9 +133,17 @@
 }
 
 .card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+  margin-left: 1rem;
+  margin-bottom: 0;
+  margin-top: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.card img {
+  border-radius: 10px;
+  max-width: 70px;
+  max-height: 70px;
 }
 
 .logo {

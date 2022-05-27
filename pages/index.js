@@ -49,31 +49,31 @@ export default function Home() {
         <div className={styles.grid}>
 
           <form onSubmit={handleSubmit}>
-            <input
+            <input className={styles.input}
               placeholder={"Search song"}
               onChange={(Event) => {
                 setSearchText(Event.target.value);
               }}
             ></input>
-            <button>Search</button>
+            <button className={styles.button}>Search</button>
           </form>
 
           <div>
             {isSearching ? (
-              <p>Loading</p>
+              <Image
+                src="/Spinner-1s-200px.gif"
+                width={70}
+                height={70}
+              />
             ) : (
               audios?.map((audio) => (
-              <div>
+              <div className={styles.card}>
                 <img
                   src={audio["artwork"]["480x480"]}
-                  width={200}
-                  height={200}
+                  width={70}
                   alt={audio["title"]}  
                 />
-                <div>
-                  {" "}
                 <p>{audio["title"]}</p>
-                </div>
               </div>
               ))
             )}
