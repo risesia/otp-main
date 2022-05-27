@@ -2,17 +2,17 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Axios from "axios"
-import { useState } from "react"
+import React, { useState } from "react"
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
-  const [audio, setAudio] = useState([]);
+  const [audios, setaudios] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSubmit = (Event) => {
     Event.preventDefault();
     setIsSearching(true);
-    setAudio([]);
+    setaudios([]);
 
     if(!searchText) {
       alert("Please enter song name");
@@ -24,7 +24,7 @@ export default function Home() {
     )
       .then((Response) => {
         console.log(Response.data);
-        setAudio(Response.data.search);
+        setaudios(Response.data.search);
         setIsSearching(false);
       })
       .catch((Error) => {
@@ -48,11 +48,35 @@ export default function Home() {
 
         <div className={styles.grid}>
 
-          <form>
-            <input type="search" name="query"></input>
-            <button type="submit">Search</button>
+          <form onSubmit={handleSubmit}>
+            <input
+              placeholder={"Search song"}
+              onChange={(Event) => {
+                setSearchText(Event.target.value);
+              }}
+            ></input>
+            <button>Search</button>
           </form>
 
+          <div>
+            {isSearching ? (
+              <p>Loading</p>
+            ) : (
+              audios?.map((data) =>
+              <div>
+                <Image
+                  src={data["480x480"]}
+                  width={200}
+                  alt={data["title"]}
+                />
+                <p>{data["title"]}</p>
+                <p></p>
+              </div>
+              )
+            )
+            
+          }
+          </div>
         </div>
       </main>
 
