@@ -6,13 +6,13 @@ import React, { useState } from "react"
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
-  const [audios, setaudios] = useState([]);
+  const [audios, setAudios] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSubmit = (Event) => {
     Event.preventDefault();
     setIsSearching(true);
-    setaudios([]);
+    setAudios([]);
 
     if(!searchText) {
       alert("Please enter song name");
@@ -20,14 +20,14 @@ export default function Home() {
     }
 
     Axios.get(
-      'https://audius-discovery-14.cultur3stake.com/v1/tracks/search?query=${searchText}&app_name=OneTimePlaylist'
+      `https://audius-discovery-14.cultur3stake.com/v1/tracks/search?query=${searchText}&app_name=OneTimePlaylist`
     )
       .then((Response) => {
         console.log(Response.data);
-        setaudios(Response.data.search);
+        setAudios(Response.data.data);
         setIsSearching(false);
       })
-      .catch((Error) => {
+      .catch((error) => {
         console.log(error);
         setIsSearching(false);
       })
@@ -62,21 +62,23 @@ export default function Home() {
             {isSearching ? (
               <p>Loading</p>
             ) : (
-              audios?.map((data) =>
+              audios?.map((audio) => (
               <div>
-                <Image
-                  src={data["480x480"]}
+                <img
+                  src={audio["artwork"]["480x480"]}
                   width={200}
-                  alt={data["title"]}
+                  height={200}
+                  alt={audio["title"]}  
                 />
-                <p>{data["title"]}</p>
-                <p></p>
+                <div>
+                  {" "}
+                <p>{audio["title"]}</p>
+                </div>
               </div>
-              )
-            )
-            
-          }
+              ))
+            )}
           </div>
+
         </div>
       </main>
 
