@@ -24,6 +24,7 @@
     "webpack": "^5.72.1"
   },
   "devDependencies": {
+    "babel-plugin-transform-define": "^2.0.1",
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.5"
   }
