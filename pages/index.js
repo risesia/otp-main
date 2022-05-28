@@ -5,8 +5,11 @@ import Axios from "axios"
 import React, { useState } from "react"
 
 export default function Home() {
+
   const [searchText, setSearchText] = useState("");
   const [audios, setAudios] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [isTrending, setIsTrending] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSubmit = (Event) => {
@@ -20,7 +23,7 @@ export default function Home() {
     }
 
     Axios.get(
-      `https://audius-discovery-14.cultur3stake.com/v1/tracks/search?query=${searchText}&app_name=OneTimePlaylist`
+      `https://audius-discovery-14.cultur3stake.com/v1/tracks/search?query=${searchText}&app_name=MusicPlaylist`
     )
       .then((Response) => {
         console.log(Response.data);
@@ -30,6 +33,24 @@ export default function Home() {
       .catch((error) => {
         console.log(error);
         setIsSearching(false);
+      })
+  };
+
+  const trendingTrack = (Event) => {
+    Event.preventDefault();
+    setIsTrending(true);
+
+    Axios.get(
+      `https://discovery-au-02.audius.openplayer.org/v1/tracks/trending?app_name=MusicPlaylist`
+    )
+      .then((Response) => {
+        console.log(Response.data);
+        setTrending(Response.data.data);
+        setIsTrending(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsTrending(false);
       })
   };
 
@@ -43,12 +64,41 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          One Time Playlist
+          Music Playlist
         </h1>
 
         <div className={styles.grid}>
+        <div>
+        
+        <form onSubmit={trendingTrack} className={styles.trending}>
+            <button className={styles.button}>See Trending Track</button>
+        </form>
 
-          <form onSubmit={handleSubmit}>
+        <div>
+            {isTrending ? (
+              <Image
+                src="/Spinner-1s-200px.gif"
+                width={70}
+                height={70}
+              />
+            ) : (
+              trending?.map((trendingSong) => (
+              <div className={styles.card}>
+                <img
+                  src={trendingSong["artwork"]["150x150"]}
+                  width={75}
+                  alt={trendingSong["title"]}
+                />
+                <p>{trendingSong["title"]}</p>
+                <p>{trendingSong["name"]}</p>
+              </div>
+              ))
+            )}
+          </div>
+          </div>
+
+          <div>
+          <form onSubmit={handleSubmit} className={styles.formCenter}>
             <input className={styles.input}
               placeholder={"Search song"}
               onChange={(Event) => {
@@ -66,17 +116,18 @@ export default function Home() {
                 height={70}
               />
             ) : (
-              audios?.map((audio) => (
+              audios?.map((song) => (
               <div className={styles.card}>
                 <img
-                  src={audio["artwork"]["480x480"]}
-                  width={70}
-                  alt={audio["title"]}  
+                  src={song["artwork"]["150x150"]}
+                  width={75}
+                  alt={song["title"]}
                 />
-                <p>{audio["title"]}</p>
+                <p>{song["title"]}</p>
               </div>
               ))
             )}
+          </div>
           </div>
 
         </div>
