@@ -14,6 +14,17 @@ module.exports = {
 }
 module.exports = withImages(withTM());
 
+const debug = process.env.NODE_ENV !== "production";
+module.exports = {
+  exportPathMap: function () {
+    return {
+      "/": { page: "/" },
+      "/ap-grid-layout": { page: "/ap-grid-layout" },
+    }
+  },
+  assetPrefix: !debug ? 'https://risesia.github.io/otp-main/' : '',
+}
+
 /*
 
 module.exports = {
